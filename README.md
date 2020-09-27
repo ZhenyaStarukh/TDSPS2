@@ -2,27 +2,27 @@
 
 ### List of services (controllers in PigmentsShopDev):  
 1. CustomerController:  
-   - POST /clients/register?name=&phoneNumber=  
+   - /clients/register?name=&phoneNumber=  
       (register new client)  
-   - GET /clients/show  
+   - /clients/show  
      (get all registered clients)
 
 2. PigmentController:  
-   - GET /pigments/show?id=  
+   - /pigments/show?id=  
    (get custom pigments of certain user)
-   - GET /pigments/effects  
+   - /pigments/effects  
    (get show effects that can be added to a pigment)
-   - GET /pigments/colors  
+   - /pigments/colors  
    (get available colors)
-   - PUT /pigments/colors?cyanWeight=&magentaWeight=&yellowWeight=&blackWeight=&whiteWeight=  
+   - /pigments/colors?weight 
    (update info about colors)
-   - DELETE /pigments/delete?pigmentName=&clientNumber=  
+   - /pigments/?pigmentName=&clientNumber=  
    (delete custom pigment of certain user)
-   - POST /pigments/save?name=&cyan=&magenta=&yellow=&black=&white=&clientId=  
+   - /pigments/save?name=&array=&clientId=  
    (save custom pigment)
    
 3. ShopController:
-   - PUT /pillow?pillow=  
+   - /pillow?pillow=  
    (update shop's pillow)
-   - GET /pillow  
+   - /pillow  
    (get shop's pillow)
