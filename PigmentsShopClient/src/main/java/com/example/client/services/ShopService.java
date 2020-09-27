@@ -134,7 +134,8 @@ public class ShopService {
         UriComponentsBuilder componentsBuilder = UriComponentsBuilder.fromHttpUrl(link)
                 .queryParam("pillow",shop.getPillow());
 
-        HttpEntity<String> response = restTemplate.exchange(componentsBuilder.toUriString(),
+        HttpEntity<String> response = restTemplate.exchange(
+                componentsBuilder.toUriString(),
                 HttpMethod.PUT,
                 null,
                 String.class);
@@ -146,7 +147,8 @@ public class ShopService {
         componentsBuilder = UriComponentsBuilder.fromHttpUrl(link)
                 .queryParam("weight",toList());
 
-        response = restTemplate.exchange(componentsBuilder.toUriString(),
+        response = restTemplate.exchange(
+                componentsBuilder.toUriString(),
                 HttpMethod.PUT,
                 null,
                 String.class);

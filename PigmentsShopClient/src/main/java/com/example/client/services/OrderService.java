@@ -116,7 +116,8 @@ public class OrderService {
     {
         List<Double> list = new ArrayList<>();
         for (int i = 0;i<5;i++){
-            list.add(pigment.getFormula(i));
+            double formulaPiece = pigment.getFormula(i);
+            list.add(formulaPiece);
         }
         return list;
     }
@@ -127,11 +128,15 @@ public class OrderService {
         RestTemplate restTemplate = new RestTemplate();
         index -= 1;
 
+        Pigment pigment = order.getPigment(index);
+        List<Double> formula = toList(pigment);
+
+        String encodedNumber = encodeNumber(order.getId());
 
         UriComponentsBuilder componentsBuilder = UriComponentsBuilder.fromHttpUrl(link)
                 .queryParam("name", name)
-                .queryParam("array",toList(order.getPigment(index)))
-                .queryParam("clientId", order.getId().replace("+","%2B"));
+                .queryParam("array",formula)
+                .queryParam("clientId", encodedNumber);
 
         try{
             HttpEntity<String> response = restTemplate.exchange(
