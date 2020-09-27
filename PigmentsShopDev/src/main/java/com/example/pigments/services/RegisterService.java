@@ -23,11 +23,16 @@ public class RegisterService {
 
     public void Register(Client client) throws Exception
     {
-        boolean clientWithNumber = !client.getPhoneNumber().equals("None");
-        boolean isInDataBase = clientsRepo.existsByPhoneNumber(client.getPhoneNumber());
+        String clientNumber = client.getPhoneNumber();
+        String clientName = client.getName();
+
+        boolean clientWithNumber = !clientNumber.equals("None");
+
+
+        boolean isInDataBase = clientsRepo.existsByPhoneNumber(clientNumber);
 
         if ( clientWithNumber && isInDataBase)
-            throw new Exception(client.getName()+"! You're already registered");
+            throw new Exception(clientName+"! You're already registered");
 
         else if (clientWithNumber) {
             clientsRepo.save(client);

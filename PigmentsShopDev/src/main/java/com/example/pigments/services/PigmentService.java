@@ -22,6 +22,7 @@ public class PigmentService {
     private final PigmentsRepo pigmentsRepo;
     private final ClientsRepo clientsRepo;
 
+
     @Autowired
     public PigmentService(ClientsRepo clientsRepo, PigmentsRepo pigmentsRepo, ColorsRepo colorsRepo)
     {
@@ -34,17 +35,21 @@ public class PigmentService {
 
     public Pigment createAPigment(double[] array, String creatorId)
     {
-        return new Pigment(creatorId,array,colorsRepo.findAllByOrderByIdAsc());
+        List<Colors> colors = colorsRepo.findAllByOrderByIdAsc();
+        return new Pigment(creatorId,array,colors);
     }
 
 
     public void savePigment(Pigment pigment, String name) throws IllegalArgumentException
     {
-        if(!clientsRepo.existsByPhoneNumber(pigment.getCreatorPhone()))
+        String clientPhone = pigment.getCreatorPhone();
+        boolean canSavePigment = clientsRepo.existsByPhoneNumber(clientPhone);
+        if(!canSavePigment)
             throw new IllegalArgumentException("Unregistered customers can't save their pigments");
 
+        List<Colors> colors = colorsRepo.findAllByOrderByIdAsc();
 
-        Pigment pigmentSaved = pigment.clone(colorsRepo.findAllByOrderByIdAsc());
+        Pigment pigmentSaved = pigment.clone(colors);
         pigmentSaved.setName(name);
         pigmentsRepo.save(pigmentSaved);
 
@@ -91,7 +96,8 @@ public class PigmentService {
         List<Pigment> list = pigmentsRepo.findAllByCreatorPhone("Shop");
         Collections.reverse(list);
 
-        if(!id.equals("None")) list.addAll(pigmentsRepo.findAllByCreatorPhone(id));
+        List<Pigment> customList = pigmentsRepo.findAllByCreatorPhone(id);
+        if(!id.equals("None")) list.addAll(customList);
 
         return list;
     }
