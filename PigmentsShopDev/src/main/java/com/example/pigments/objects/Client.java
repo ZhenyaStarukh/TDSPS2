@@ -14,15 +14,18 @@ public final class Client {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+
     @Column(name = "phone_number",length = 13, unique = true)
     private String phoneNumber;
+
     @Column(length = 50)
     private String name;
 
 
     public Client(){ phoneNumber = "None";}
 
-    public Client(String name, String phoneNumber){
+    public Client(String name, String phoneNumber)
+    {
         this.name = name;
         setPhoneNumber(phoneNumber);
     }
@@ -38,6 +41,7 @@ public final class Client {
     public String getPhoneNumber() { return phoneNumber;}
 
     private boolean checkNumber(String number){ return number.matches("(\\+380)[3-9]\\d{8}");}
+
 
     public void setPhoneNumber(String phoneNumber) throws IllegalArgumentException
     {

@@ -17,27 +17,37 @@ public class CustomerController {
     private final RegisterService registerService;
 
     @Autowired
-    public CustomerController(RegisterService registerService){
+    public CustomerController(RegisterService registerService)
+    {
         this.registerService = registerService;
     }
 
 
     @PostMapping("/register")
     public ResponseEntity<Object> createClient(@RequestParam String name,
-                                               @RequestParam String phoneNumber){
-        Client client = new Client(name,phoneNumber.replace("%252B","+"));
+                                               @RequestParam String phoneNumber)
+    {
+        String decodedPhoneNumber = phoneNumber.replace("%252B","+");
+
+        Client client = new Client(name,decodedPhoneNumber);
         try{
             registerService.Register(client);
-        }catch(Exception e){
-            return new ResponseEntity<>("Bad request: "+e.getMessage(),HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(client.getName()+": successfully registered",HttpStatus.OK);
+        catch(Exception e){
+            return new ResponseEntity<>("Bad request: "+e.getMessage(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(client.getName()+": successfully registered",
+                HttpStatus.OK);
+
     }
 
 
     @GetMapping("/show")
-    public  ResponseEntity<Object> getAllClients(){
-          return new ResponseEntity<>(registerService.getAll(),HttpStatus.OK);
+    public  ResponseEntity<Object> getAllClients()
+    {
+          return new ResponseEntity<>(registerService.getAll(),
+                  HttpStatus.OK);
     }
 
 }

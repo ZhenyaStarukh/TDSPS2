@@ -23,7 +23,8 @@ public class PigmentService {
     private final ClientsRepo clientsRepo;
 
     @Autowired
-    public PigmentService(ClientsRepo clientsRepo, PigmentsRepo pigmentsRepo, ColorsRepo colorsRepo){
+    public PigmentService(ClientsRepo clientsRepo, PigmentsRepo pigmentsRepo, ColorsRepo colorsRepo)
+    {
         this.clientsRepo=clientsRepo;
         this.pigmentsRepo = pigmentsRepo;
         this.colorsRepo=colorsRepo;
@@ -31,12 +32,14 @@ public class PigmentService {
 
 
 
-    public Pigment createAPigment(double[] array, String creatorId){
+    public Pigment createAPigment(double[] array, String creatorId)
+    {
         return new Pigment(creatorId,array,colorsRepo.findAllByOrderByIdAsc());
     }
 
 
-    public void savePigment(Pigment pigment, String name) throws IllegalArgumentException {
+    public void savePigment(Pigment pigment, String name) throws IllegalArgumentException
+    {
         if(!clientsRepo.existsByPhoneNumber(pigment.getCreatorPhone()))
             throw new IllegalArgumentException("Unregistered customers can't save their pigments");
 
@@ -48,7 +51,8 @@ public class PigmentService {
     }
 
 
-    private boolean inList(String name, String id){
+    private boolean inList(String name, String id)
+    {
         List<Pigment> list = pigmentsRepo.findAllByCreatorPhone(id);
 
         for(Pigment pigment : list){
@@ -58,7 +62,8 @@ public class PigmentService {
     }
 
 
-    private Pigment desiredPigment(String name, String id){
+    private Pigment desiredPigment(String name, String id)
+    {
         List<Pigment> pigments = pigmentsRepo.findAllByCreatorPhone(id);
 
         for(Pigment pigment: pigments){
@@ -68,18 +73,24 @@ public class PigmentService {
     }
 
 
-    public void deletePigment(String name, String clientPhone) throws IllegalArgumentException{
-        if (clientPhone.equals("None")) throw new IllegalArgumentException("Unregistered customers can't delete pigments from database");
-        if (!inList(name, clientPhone)) throw new IllegalArgumentException("There is no such custom pigment");
+    public void deletePigment(String name, String clientPhone) throws IllegalArgumentException
+    {
+        if (clientPhone.equals("None"))
+            throw new IllegalArgumentException("Unregistered customers can't delete pigments from database");
 
-        pigmentsRepo.delete(Objects.requireNonNull(desiredPigment(name, clientPhone)));
+        if (!inList(name, clientPhone))
+            throw new IllegalArgumentException("There is no such custom pigment");
 
+        Pigment desiredPigment = desiredPigment(name,clientPhone);
+        pigmentsRepo.delete(Objects.requireNonNull(desiredPigment));
     }
 
 
-    public List<Pigment> getAllPigments(String id){
+    public List<Pigment> getAllPigments(String id)
+    {
         List<Pigment> list = pigmentsRepo.findAllByCreatorPhone("Shop");
         Collections.reverse(list);
+
         if(!id.equals("None")) list.addAll(pigmentsRepo.findAllByCreatorPhone(id));
 
         return list;
@@ -91,7 +102,8 @@ public class PigmentService {
     }
 
 
-    public List<String> showEffects(){
+    public List<String> showEffects()
+    {
         List<String> effects = new ArrayList<>();
 
         for(Effect effect: Effect.values()){
@@ -101,7 +113,8 @@ public class PigmentService {
     }
 
 
-    public void setWeight(double[] array){
+    public void setWeight(double[] array)
+    {
         List<Colors> colors = colorsRepo.findAllByOrderByIdAsc();
 
         for(int i = 0;i<colors.size();i++){
@@ -109,6 +122,15 @@ public class PigmentService {
             colorsRepo.save(colors.get(i));
         }
 
+    }
+
+    public double[] fromList(List<Double> list)
+    {
+        double[] array = new double[5];
+        for(int i = 0;i< array.length;i++){
+            array[i]= list.get(i);
+        }
+        return array;
     }
 
 }

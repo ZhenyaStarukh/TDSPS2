@@ -16,19 +16,26 @@ public class ShopController {
     private final ShopService shopService;
 
     @Autowired
-    public ShopController(ShopService shopService){
+    public ShopController(ShopService shopService)
+    {
         this.shopService = shopService;
     }
 
 
 
     @PutMapping
-    public ResponseEntity<Object> setPillow(@RequestParam double pillow){
+    public ResponseEntity<Object> setPillow(@RequestParam double pillow)
+    {
         shopService.setPillow(pillow);
-        return new ResponseEntity<>("PILLOW SET",HttpStatus.OK);
+        return new ResponseEntity<>("PILLOW SET",
+                HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Object> getPillow(){ return new ResponseEntity<>(shopService.getPillow(),HttpStatus.OK);}
+    public ResponseEntity<Object> getPillow()
+    {
+        return new ResponseEntity<>(shopService.getPillow(),
+                HttpStatus.OK);
+    }
 
 }

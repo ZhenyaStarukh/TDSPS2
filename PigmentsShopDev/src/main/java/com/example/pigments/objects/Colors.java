@@ -11,15 +11,19 @@ public class Colors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
+
     @Column(precision = 12, scale = 2)
     private double price;
+
     private double weight;
 
 
     public Colors() {}
 
-    public Colors(double price, double weight, String name) {
+    public Colors(double price, double weight, String name)
+    {
         this.price = price;
         this.weight = weight;
         this.name = name;

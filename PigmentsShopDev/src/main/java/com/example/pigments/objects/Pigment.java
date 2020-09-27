@@ -12,20 +12,27 @@ public class Pigment implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(unique = true)
     private String name;
+
     @Column(name="creator_phone")
     private String creatorPhone;
+
     @Column(name = "price_per_gram", precision = 12, scale = 2)
     private double price;
+
     private double cyan, magenta, yellow, black, white;
+
     private String effects;
+
     private double weight;
 
 
     public Pigment(){}
 
-    public Pigment(String number, double[] array, List<Colors> colors){
+    public Pigment(String number, double[] array, List<Colors> colors)
+    {
         createFormula(array);
         creatorPhone = number;
         resetEffects();
@@ -77,22 +84,26 @@ public class Pigment implements Cloneable{
 
 
 //------------------------------------------------------------------------------------------------------------------
-    public double[] getArray(){
+    public double[] getArray()
+    {
         double[] array = new double[5];
         array[0]=cyan;array[1]=magenta;array[2]=yellow;array[3]=black;array[4]=white;
         return array;
     }
 
-    public void setPigments(double[] array){
+    public void setPigments(double[] array)
+    {
         cyan=array[0];magenta=array[1];yellow=array[2];black=array[3];white=array[4];
     }
 
-    public Pigment clone(List<Colors> colors) {
+    public Pigment clone(List<Colors> colors)
+    {
         return new Pigment(this.creatorPhone, this.getArray(),colors);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return id.toString()+" "+name+" "+getFormula()+" "+ creatorPhone +" "+price+" "+ weight;
     }
 
@@ -102,7 +113,8 @@ public class Pigment implements Cloneable{
     public boolean haveEffects(){ return !effects.equals("None");}
 
     //Formula---------------------------------------------------------------------------------------------------------
-    public boolean rightFormula(double[] array) throws IllegalArgumentException{
+    public boolean rightFormula(double[] array) throws IllegalArgumentException
+    {
         double sum = Arrays.stream(array).sum();
         for(double d : array){
             if (d > 1 || d < 0 )
@@ -113,13 +125,15 @@ public class Pigment implements Cloneable{
         return true;
     }
 
-    private void createFormula(double[] array){
+    private void createFormula(double[] array)
+    {
         setPigments(new double[]{0,0,0,0,0});
         if(rightFormula(array)) setPigments(array);
     }
 
 
-    public String getFormula(){
+    public String getFormula()
+    {
         double[] formula = getArray();
         String str = Arrays.toString(formula);
         if(!effects.equals("None")) str += " "+effects;
@@ -128,14 +142,16 @@ public class Pigment implements Cloneable{
 
 
     //Price------------------------------------------------------------------------------------------------------------
-    private void splitAndAdd(ArrayList<String> array){
+    private void splitAndAdd(ArrayList<String> array)
+    {
         if (!haveEffects()) return;
         String[] strings = effects.split(", ");
         Collections.addAll(array, strings);
     }
 
 
-    public void pricePerGram(List<Colors> colors){
+    public void pricePerGram(List<Colors> colors)
+    {
        ArrayList<String> effectsArray = new ArrayList<>();
        splitAndAdd(effectsArray);
         price = 0.0;

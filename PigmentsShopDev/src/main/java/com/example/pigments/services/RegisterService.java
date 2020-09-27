@@ -15,26 +15,35 @@ public class RegisterService {
     private final ClientsRepo clientsRepo;
 
     @Autowired
-    public RegisterService(ClientsRepo clientsRepo){ this.clientsRepo=clientsRepo;}
+    public RegisterService(ClientsRepo clientsRepo)
+    {
+        this.clientsRepo=clientsRepo;
+    }
 
 
     public void Register(Client client) throws Exception
     {
+        boolean clientWithNumber = !client.getPhoneNumber().equals("None");
+        boolean isInDataBase = clientsRepo.existsByPhoneNumber(client.getPhoneNumber());
 
-        if (!client.getPhoneNumber().equals("None") && clientsRepo.existsByPhoneNumber(client.getPhoneNumber()))
+        if ( clientWithNumber && isInDataBase)
             throw new Exception(client.getName()+"! You're already registered");
 
-        else if (!client.getPhoneNumber().equals("None")) {
+        else if (clientWithNumber) {
             clientsRepo.save(client);
         }
 
-        else throw  new IllegalArgumentException("Should enter valid telephone number");
+        else
+            throw new IllegalArgumentException("Should enter valid telephone number");
     }
 
-    public List<Client> getAll(){
+    public List<Client> getAll()
+    {
         List<Client> list = clientsRepo.findAllByOrderByIdDesc();
 
-        list.remove(clientsRepo.findByName("Shop").get(0));
+        Client shop = clientsRepo.findByName("Shop").get(0);
+
+        list.remove(shop);
         return list;
     }
 

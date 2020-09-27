@@ -21,6 +21,8 @@ public class ClientApplication {
 
 	public static void story(){
 
+
+
 		ShopService.openShop();
 
 		System.out.println("CREATING CUSTOMERS...");
@@ -92,6 +94,7 @@ public class ClientApplication {
 
 
 		ShopService.closeShop();
+
 
 	}
 

@@ -18,14 +18,18 @@ public class CustomerService {
     private static final String address = "http://localhost:8080/clients";
 
 
-    public static Client createCustomer(String name, String number){
+
+    public static Client createCustomer(String name, String number)
+    {
         return new Client(name,number);
     }
 
 
-    public static void registerCustomer(Client client, String ans){
+    public static void registerCustomer(Client client, String ans)
+    {
 
-        if (ans.equals("no")){
+        if (ans.equals("no"))
+        {
             client.resetId();
             System.out.println(client.getName()+"decided not to register.");
             return;
@@ -34,15 +38,21 @@ public class CustomerService {
         final String link = address + "/register";
         RestTemplate restTemplate = new RestTemplate();
 
+        String encodedNumber = OrderService.encodeNumber(client.getPhoneNumber());
+
         UriComponentsBuilder componentsBuilder = UriComponentsBuilder.fromHttpUrl(link)
                 .queryParam("name", client.getName())
-                .queryParam("phoneNumber",client.getPhoneNumber().replace("+","%2B"));
+                .queryParam("phoneNumber",encodedNumber);
 
         try{
-            HttpEntity<String> response = restTemplate.exchange(componentsBuilder.toUriString(),HttpMethod.POST,
-                    null,String.class);
+            HttpEntity<String> response = restTemplate.exchange(
+                    componentsBuilder.toUriString(),
+                    HttpMethod.POST,
+                    null,
+                    String.class);
             System.out.println(response.getBody());
-        }catch(HttpStatusCodeException exception){
+        }
+        catch(HttpStatusCodeException exception){
             System.out.println("Code: "+exception.getRawStatusCode()+"\nResponse: "
                     + exception.getResponseBodyAsString());
         }
@@ -50,14 +60,18 @@ public class CustomerService {
     }
 
 
-    public static void showClients(){
+    public static void showClients()
+    {
         final String link = address + "/show";
         RestTemplate restTemplate = new RestTemplate();
 
         UriComponentsBuilder componentsBuilder = UriComponentsBuilder.fromHttpUrl(link);
 
-        HttpEntity<List<Client>> response = restTemplate.exchange(componentsBuilder.toUriString(), HttpMethod.GET,
-                null, new ParameterizedTypeReference<>(){});
+        HttpEntity<List<Client>> response = restTemplate.exchange(
+                componentsBuilder.toUriString(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>(){});
 
         List<Client> clients = response.getBody();
         System.out.println("\nCLIENTS:\n___________________________________");

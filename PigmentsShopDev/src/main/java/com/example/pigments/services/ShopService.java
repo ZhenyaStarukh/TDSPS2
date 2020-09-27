@@ -15,7 +15,8 @@ public class ShopService {
 
 
     @Autowired
-    public ShopService(ShopRepo shopRepo){
+    public ShopService(ShopRepo shopRepo)
+    {
         this.shopRepo=shopRepo;
         shop = shopRepo.findAll().get(0);
     }

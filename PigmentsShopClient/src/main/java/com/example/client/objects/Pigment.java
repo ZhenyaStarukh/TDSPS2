@@ -77,21 +77,31 @@ public class Pigment implements Cloneable{
 
     public double[] getArray(){
         double[] array = new double[5];
-        array[0]=cyan;array[1]=magenta;array[2]=yellow;array[3]=black;array[4]=white;
+        array[0]=cyan;
+        array[1]=magenta;
+        array[2]=yellow;
+        array[3]=black;
+        array[4]=white;
         return array;
     }
 
     public void setPigments(double[] array){
-        cyan=array[0];magenta=array[1];yellow=array[2];black=array[3];white=array[4];
+        cyan=array[0];
+        magenta=array[1];
+        yellow=array[2];
+        black=array[3];
+        white=array[4];
     }
 
 //--------------------------------------------------------------------------------------------------------------------
-    public Pigment clone(List<Colors> colors) {
+    public Pigment clone(List<Colors> colors)
+    {
         return new Pigment(this.creatorPhone, this.getArray(),colors);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return name+" "+getFormula()+" "+ " "+ Precision.round(price,2);
     }
 
@@ -110,35 +120,45 @@ public class Pigment implements Cloneable{
     }
 
 
-    public void addEffect(int index){
+    public void addEffect(int index)
+    {
         String effectToAdd = Effect.values()[index-1].getName();
+
         if(!haveEffects()) effects = effectToAdd;
+
         else effects+=", "+effectToAdd;
         System.out.println(effectToAdd+" added.");
     }
 
 //Formula---------------------------------------------------------------------------------------------------------
 
-    public boolean rightFormula(double[] array) throws IllegalArgumentException{
+    public boolean rightFormula(double[] array) throws IllegalArgumentException
+    {
         double sum = Arrays.stream(array).sum();
-        for(double d : array){
+
+        for(double d : array)
+        {
             if (d > 1 || d < 0 ) throw  new IllegalArgumentException("Percentage can't be more than 1 or less than 0.");
             if (sum > 1) throw new IllegalArgumentException("Total percentage sum should be less or equal than 1.");
         }
+
         return true;
     }
 
-    private void createFormula(double[] array){
+    private void createFormula(double[] array)
+    {
         setPigments(new double[]{0,0,0,0,0});
         if(rightFormula(array)) setPigments(array);
     }
 
-    public void alterFormula(double[] array, List<Colors> colors){
+    public void alterFormula(double[] array, List<Colors> colors)
+    {
         createFormula(array);
         pricePerGram(colors);
     }
 
-    public String getFormula(){
+    public String getFormula()
+    {
         String str = "| "+ Precision.round(cyan, 3) + ", "
                 + Precision.round(magenta, 3) + ", "
                 + Precision.round(yellow, 3) + ", "
@@ -148,23 +168,28 @@ public class Pigment implements Cloneable{
         return str;
     }
 
-    public double getFormula(int index){
+    public double getFormula(int index)
+    {
         double[] formula = getArray();
         return formula[index];
     }
 
 
 //Price------------------------------------------------------------------------------------------------------------
-    private void splitAndAdd(ArrayList<String> array){
+    private void splitAndAdd(ArrayList<String> array)
+    {
         if (!haveEffects()) return;
+
         String[] strings = effects.split(", ");
         Collections.addAll(array, strings);
     }
 
 
-    public void pricePerGram(List<Colors> colors){
+    public void pricePerGram(List<Colors> colors)
+    {
        ArrayList<String> effectsArray = new ArrayList<>();
        splitAndAdd(effectsArray);
+
         price = 0.0;
         double[] formula = getArray();
 
@@ -172,6 +197,7 @@ public class Pigment implements Cloneable{
         for(int i = 0;i < formula.length;i++){
             price += colors.get(i).getPrice()  * formula[i];
         }
+
         if(!effectsArray.isEmpty())
         for (String effect : effectsArray) {
             price += Effect.valueOf(effect.toUpperCase())
