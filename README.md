@@ -14,7 +14,7 @@
    (get show effects that can be added to a pigment)
    - /pigments/colors  
    (get available colors)
-   - /pigments/colors?weight 
+   - /pigments/colors?weight=  
    (update info about colors)
    - /pigments/?pigmentName=&clientNumber=  
    (delete custom pigment of certain user)
