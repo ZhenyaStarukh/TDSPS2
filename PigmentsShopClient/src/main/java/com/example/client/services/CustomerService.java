@@ -31,7 +31,7 @@ public class CustomerService {
         if (ans.equals("no"))
         {
             client.resetId();
-            System.out.println(client.getName()+"decided not to register.");
+            System.out.println(client.getName()+" decided not to register.");
             return;
         }
 

@@ -78,9 +78,11 @@ public class ShopService {
 
     private static void Purchase(Order order, String ans, Cashier cashier) throws Exception
     {
+
+
         checkPigments(order);
         order.calculateTotalPrice(colors);
-        order.showTotal(OrderService.getColors());
+        order.showTotal(colors);
 
 
         if (ans.equals("no"))
@@ -91,7 +93,7 @@ public class ShopService {
 
         if (haveDiscount(order)) order.setDiscount();
 
-        List<Colors> colors = OrderService.getColors();
+
         double totalPrice = order.getTotalPrice();
 
         order.showTotal(colors);
@@ -100,11 +102,10 @@ public class ShopService {
 
         for (int i = 0; i < colors.size(); i++)
         {
-            Colors color = colors.get(i);
             double weightToReduce = order.countPigment(i);
-            color.reduceWeight(weightToReduce);
+            colors.get(i).reduceWeight(weightToReduce);
 
-            System.out.println(color.getWeight());
+            System.out.println(colors.get(i).getWeight());
         }
         System.out.println("_______________\n");
     }

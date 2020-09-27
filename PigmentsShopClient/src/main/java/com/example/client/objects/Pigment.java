@@ -134,8 +134,10 @@ public class Pigment implements Cloneable{
 
         for(double d : array)
         {
-            if (d > 1 || d < 0 ) throw  new IllegalArgumentException("Percentage can't be more than 1 or less than 0.");
-            if (sum > 1) throw new IllegalArgumentException("Total percentage sum should be less or equal than 1.");
+            if (d > 1 || d < 0 )
+                throw  new IllegalArgumentException("Percentage can't be more than 1 or less than 0.");
+            if (sum > 1)
+                throw new IllegalArgumentException("Total percentage sum should be less or equal than 1.");
         }
 
         return true;

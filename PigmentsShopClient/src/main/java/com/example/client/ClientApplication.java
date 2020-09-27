@@ -45,6 +45,7 @@ public class ClientApplication {
 		Order annasOrder = OrderService.makeOrder(Anna);
 		Order sashasOrder = OrderService.makeOrder(Sasha);
 
+
 		OrderService.showPigmentsList(Sasha);
 
 

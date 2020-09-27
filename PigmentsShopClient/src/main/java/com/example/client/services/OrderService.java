@@ -49,7 +49,6 @@ public class OrderService {
                 new ParameterizedTypeReference<>(){});
 
         List<Pigment> pigments = response.getBody();
-        System.out.println("\nPIGMENTS:\n___________________________________");
         return pigments;
     }
 
@@ -63,7 +62,7 @@ public class OrderService {
                 link,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<>() {});
+                new ParameterizedTypeReference<>(){});
 
         return response.getBody();
     }
@@ -77,6 +76,7 @@ public class OrderService {
             pigment.pricePerGram(getColors());
         }
 
+        System.out.println("\nPIGMENTS:\n___________________________________");
         for(Pigment pigment: list){
             System.out.println(pigment.toString());
         }
@@ -91,7 +91,8 @@ public class OrderService {
             desiredPigment.setWeight(weight);
             order.addPigment(desiredPigment);
 
-            System.out.println(desiredPigment.getName()+"  ADDED TO ORDER.");
+            String pigmentName = desiredPigment.getName();
+            System.out.println(pigmentName.toUpperCase()+"  ADDED TO ORDER.");
         }
         catch(Exception e){
             System.out.println("Error: "+e.getMessage());
@@ -102,7 +103,9 @@ public class OrderService {
 
     public static void createPigment(Order order, double[] array, double weight)
     {
-        Pigment newPigment = new Pigment(order.getId(),array,getColors());
+        String clientId = order.getId();
+
+        Pigment newPigment = new Pigment(clientId,array,getColors());
         newPigment.setWeight(weight);
         order.addPigment(newPigment);
 

@@ -14,8 +14,11 @@ public final class ExpensesService {
     public static double buyPigments(List<Colors> colors){
         double expenses = 0.0;
         for(Colors color: colors){
-            if(color.getWeight() < 300.0){
-                expenses += (1000-color.getWeight()) * color.getPrice();
+            double colorWeight = color.getWeight();
+            double colorPrice = color.getPrice();
+
+            if(colorWeight < 300.0){
+                expenses += (1000-colorWeight) * colorPrice;
                 color.setWeight(1000.0);
             }
         }
@@ -31,11 +34,12 @@ public final class ExpensesService {
                 +decFormat.format(shop.getPillow()));
         System.out.println("_______________\nResult:");
 
+        double pillow = shop.getPillow();
 
-        if(expenses > income) shop.setPillow(shop.getPillow() - (expenses-income));
+        if(expenses > income) shop.setPillow(pillow - (expenses-income));
         else{
             income -= expenses;
-            shop.setPillow(shop.getPillow() + income);
+            shop.setPillow(pillow + income);
         }
 
         System.out.println("Pillow: "+decFormat.format(shop.getPillow()));
