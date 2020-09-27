@@ -91,8 +91,9 @@ public class OrderService {
             desiredPigment.setWeight(weight);
             order.addPigment(desiredPigment);
 
-            System.out.println(desiredPigment.toString()+"  ADDED TO ORDER.");
-        }catch(Exception e){
+            System.out.println(desiredPigment.getName()+"  ADDED TO ORDER.");
+        }
+        catch(Exception e){
             System.out.println("Error: "+e.getMessage());
         }
 

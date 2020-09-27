@@ -105,10 +105,6 @@ public class Pigment implements Cloneable{
         return name+" "+getFormula()+" "+ " "+ Precision.round(price,2);
     }
 
-    public void savePigment(String name, List<Colors> colors){
-        this.name = name;
-        pricePerGram(colors);
-    }
 
 //Effects--------------------------------------------------------------------------------------------------------
     public String getEffects(){
