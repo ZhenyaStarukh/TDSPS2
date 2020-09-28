@@ -9,6 +9,7 @@ public class Shop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private Integer id;
 
     @Column(precision = 12, scale = 2)
@@ -16,6 +17,11 @@ public class Shop {
 
 
     public Shop(){}
+
+    public Shop(Integer id, double pillow) {
+        this.id = id;
+        this.pillow = pillow;
+    }
 
     public double getPillow() { return pillow;}
 

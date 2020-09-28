@@ -23,6 +23,8 @@ public class ClientApplication {
 
 
 
+
+
 		ShopService.openShop();
 
 		System.out.println("CREATING CUSTOMERS...");
@@ -95,6 +97,8 @@ public class ClientApplication {
 
 
 		ShopService.closeShop();
+
+
 
 
 	}
